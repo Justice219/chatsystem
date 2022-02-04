@@ -29,10 +29,11 @@ if SERVER then
 
     include("base/debug/chatsystem_sv_errors.lua")
     include("base/database/chatsystem_sv_db.lua")
+    include("base/main/chatsystem_sv_main.lua")
     include("base/chat/chatsystem_sv_chat.lua")
     include("base/net/chatsystem_sv_net.lua")
 end
 if CLIENT then
-    include("base/net/chatsystem_cl_net.lua")
     include("base/ui/chatsystem_ui_main.lua")
+    include("base/net/chatsystem_cl_net.lua")
 end
