@@ -27,6 +27,14 @@ if SERVER then
     AddCSLuaFile("base/net/chatsystem_cl_net.lua")   
     AddCSLuaFile("base/ui/chatsystem_ui_main.lua") 
 
+    util.AddNetworkString("ChatSystem:Net:Command")
+    util.AddNetworkString("ChatSystem:Net:Menus:Main")
+    util.AddNetworkString("ChatSystem:Net:CreateCommand")
+    util.AddNetworkString("ChatSystem:Net:RemoveCommand")
+    util.AddNetworkString("ChatSystem:Net:JobAccess")
+    util.AddNetworkString("ChatSystem:Net:RankAccess")
+    util.AddNetworkString("ChatSystem:Net:PanelAccess")
+
     include("base/debug/chatsystem_sv_errors.lua")
     include("base/database/chatsystem_sv_db.lua")
     include("base/main/chatsystem_sv_main.lua")

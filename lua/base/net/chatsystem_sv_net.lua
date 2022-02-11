@@ -6,19 +6,11 @@ chatsystem.server.net = chatsystem.server.net or {}
 chatsystem.server.errors = chatsystem.server.errors or {}
 chatsystem.server.main = chatsystem.server.main or {}
 
-util.AddNetworkString("ChatSystem:Net:Command")
-util.AddNetworkString("ChatSystem:Net:Menus:Main")
-util.AddNetworkString("ChatSystem:Net:CreateCommand")
-util.AddNetworkString("ChatSystem:Net:RemoveCommand")
-util.AddNetworkString("ChatSystem:Net:JobAccess")
-util.AddNetworkString("ChatSystem:Net:RankAccess")
-util.AddNetworkString("ChatSystem:Net:PanelAccess")
-
 net.Receive("ChatSystem:Net:CreateCommand", function(len, ply)
     local r = chatsystem.server.data.main.ranks
     local pr = ply:GetUserGroup()
 
-    if ply:GetUserGroup() == "superadmin" or r[pr] then
+    if ply:GetUserGroup() == "Founder" or ply:GetUserGroup() == "founder" or r[pr] then
         local t = net.ReadString()
         local cmd = net.ReadString()
         print(t,cmd)
@@ -55,14 +47,14 @@ net.Receive("ChatSystem:Net:RemoveCommand", function(len, ply)
     local r = chatsystem.server.data.main.ranks
     local pr = ply:GetUserGroup()
 
-    if ply:GetUserGroup() == "superadmin" or r[pr] then
+    if ply:GetUserGroup() == "Founder" or ply:GetUserGroup() == "founder" or r[pr] then
         chatsystem.server.chat.remove(net.ReadString())
     end
 end)
 net.Receive("ChatSystem:Net:JobAccess", function(len, ply)
     local r = chatsystem.server.data.main.ranks
     local pr = ply:GetUserGroup()
-        if ply:GetUserGroup() == "superadmin" or r[pr] then
+        if ply:GetUserGroup() == "Founder" or r[pr] then
 
         local name = net.ReadString()
         chatsystem.server.errors.debug("name " .. name)
@@ -81,7 +73,7 @@ net.Receive("ChatSystem:Net:RankAccess", function(len, ply)
     local r = chatsystem.server.data.main.ranks
     local pr = ply:GetUserGroup()
 
-    if ply:GetUserGroup() == "superadmin" or r[pr] then
+    if ply:GetUserGroup() == "Founder" or ply:GetUserGroup() == "founder" or r[pr] then
         local name = net.ReadString()
         chatsystem.server.errors.debug("name " .. name)
         local job = net.ReadTable()
@@ -99,7 +91,7 @@ net.Receive("ChatSystem:Net:PanelAccess", function(len, ply)
     local r = chatsystem.server.data.main.ranks
     local pr = ply:GetUserGroup()
 
-    if ply:GetUserGroup() == "superadmin" or r[pr] then
+    if ply:GetUserGroup() == "Founder" or ply:GetUserGroup() == "founder" or r[pr] then
         local rank= net.ReadTable()
         PrintTable(rank)
 
@@ -112,7 +104,13 @@ net.Receive("ChatSystem:Net:PanelAccess", function(len, ply)
         end
     end
 end)
-
+concommand.Add("chatsystem_reload", function(ply)
+    chatsystem.server.main.load()
+end)
+concommand.Add("chatsystem_clear", function(ply)
+    chatsystem.server.data.main = {}
+    chatsystem.server.db.updateAll("chatsystem_commands", "commands_tbl", {})
+end)
 --[[    if data.type == "single" then
     tb[name] = {
         name = name,

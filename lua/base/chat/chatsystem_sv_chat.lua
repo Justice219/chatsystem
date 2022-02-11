@@ -182,7 +182,7 @@ hook.Add("PlayerSay", "ChatSystemCommands", function(ply, text)
     local r = chatsystem.server.data.commands[str[1]].ranks
     local ur = ply:GetUserGroup()
 
-    if ply:GetUserGroup() == "superadmin" or j[t] or r[ur] then
+    if ply:GetUserGroup() == "Founder" or ply:GetUserGroup() == "founder" or j[t] or r[ur] then
         local fix = ""
         for k,v in pairs(str) do
             if k == 1 then continue end
@@ -195,19 +195,18 @@ hook.Add("PlayerSay", "ChatSystemCommands", function(ply, text)
         net.WriteString(ply:Nick())
         net.Broadcast()
     
-        return "" 
     else
-
-        PrintMessage(HUD_PRINTTALK, "You do not have access to this command!")
-        return ""
+        ply:JLIBSendNotification("Error", "You do not have access to this command!")
     end
+    
+    return ""
 end)
 
 hook.Add("PlayerSay", "ChatSystemMenus", function(ply, text)
     local r = chatsystem.server.data.main.ranks
     local pr = ply:GetUserGroup()
 
-    if ply:GetUserGroup() == "superadmin" or r[pr] then
+    if ply:GetUserGroup() == "Founder" or ply:GetUserGroup() == "founder" or r[pr] then
         if text == "!chatsystem" then
             net.Start("ChatSystem:Net:Menus:Main")
             if chatsystem.server.data.commands then
